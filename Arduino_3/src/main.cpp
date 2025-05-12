@@ -1,18 +1,36 @@
 #include <Arduino.h>
+#include <U8g2lib.h>
 
-// put function declarations here:
-int myFunction(int, int);
+// 自定义CLK和SDA引脚
+#define OLED_CLK  18
+#define OLED_SDA  5
+// 构造对象
+U8G2_SSD1306_128X64_NONAME_F_SW_I2C OLED(U8G2_R0, OLED_CLK, OLED_SDA, U8X8_PIN_NONE);
 
 void setup() {
-  // put your setup code here, to run once:
-  int result = myFunction(2, 3);
+  // 初始化OLED
+  OLED.begin();
+  // 开启中文字符集支持
+  OLED.enableUTF8Print();
+  // 设置字体
+  OLED.setFont(u8g2_font_wqy12_t_gb2312);
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
+ 
+  // 清除缓存区内容
+  OLED.clearBuffer();
+  // 绘制内容
+  OLED.setCursor(0, 10);
+  OLED.print("Hello, World!");
+
+  OLED.setCursor(0, 30);
+  OLED.print("你好,世界!");
+
+  // 发送缓存区内容到OLED
+  OLED.sendBuffer();
+
+  delay(1000);
 }
 
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
-}
+
